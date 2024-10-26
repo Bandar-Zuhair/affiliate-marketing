@@ -1,21 +1,21 @@
 // Replace with your Google Apps Script Web App URL 
-const webAppURL = 'https://script.google.com/macros/s/AKfycbyn3kOysYorrEVWW9hBE8wLYE7vZDPEZiV2V6dttXzt0wykTzUMLNHufxyLWIuqzdJD4A/exec';
+let webAppURL = 'https://script.google.com/macros/s/AKfycbyn3kOysYorrEVWW9hBE8wLYE7vZDPEZiV2V6dttXzt0wykTzUMLNHufxyLWIuqzdJD4A/exec';
 
 // Fetch data from Google Sheets Web App
 async function fetchAndDisplayProducts() {
   try {
     // Fetch the data from the Web App
-    const response = await fetch(webAppURL);
-    const data = await response.json();
+    let response = await fetch(webAppURL);
+    let data = await response.json();
 
     // Get the div where the product showcases will be appended
-    const productsDiv = document.getElementById('all_affiliate_links_products_div_id');
+    let productsDiv = document.getElementById('all_affiliate_links_products_div_id');
 
     // Group rows by the first column (Product Section Type Name)
-    const groupedData = {};
+    let groupedData = {};
     for (let i = 1; i < data.length; i++) { // Start from 1 to skip headers
-      const row = data[i];
-      const productSectionType = row[0];
+      let row = data[i];
+      let productSectionType = row[0];
 
       // Initialize array for this product section if it doesn't exist
       if (!groupedData[productSectionType]) {
@@ -26,45 +26,56 @@ async function fetchAndDisplayProducts() {
       groupedData[productSectionType].push(row);
     }
 
-    // Loop through each product section and generate the HTML
-    Object.keys(groupedData).forEach(productSectionType => {
-      // Create a new section container for this product section
+    // Filter out empty values from uniqueProductSectionTypes
+    let uniqueProductSectionTypes = Object.keys(groupedData).filter(value => value.trim() !== "");
+
+    // Clear the content of productsDiv at the beginning to avoid duplication
+    productsDiv.innerHTML = "";
+
+    // Loop through each unique product section type and generate the HTML
+    uniqueProductSectionTypes.forEach(productSectionType => {
+      // Start a new HTML string for this product section
       let sectionHtml = `
         <div class="product-showcase">
           <h2 class="title">${productSectionType}</h2>
-          <div class="showcase-wrapper has-scrollbar">
+        <div class="showcase-wrapper has-scrollbar">
       `;
 
       // Get the rows for this product section
-      const rows = groupedData[productSectionType];
+      let rows = groupedData[productSectionType];
       let containerHtml = ''; // To store showcase-container blocks
       let productCount = 0;   // Counter to limit 4 products per container
 
       rows.forEach((row, index) => {
-        const productName = row[1];
-        const productTypeName = row[2];
-        const productOldCost = row[3];
-        const productCurrentCost = row[4];
-        const productImage = row[6];
-        const productAffiliateLink = row[7];
+        let productName = row[1];
+        let productTypeName = row[2];
+        let productOldCost = row[3];
+        let productCurrentCost = row[4];
+        let productImage = row[6];
+        let productAffiliateLink = row[7];
 
         // Add a new showcase product HTML
-        const productHtml = `
-          <div class="showcase">
-            <a href="${productAffiliateLink}" class="showcase-img-box">
-              <img src="${productImage}" width="70" class="showcase-img">
+        let productHtml = `
+        <div class="showcase">
+          <a href="${productAffiliateLink}" class="showcase-img-box">
+            <img src="${productImage}" width="70" class="showcase-img">
+          </a>
+
+          <div class="showcase-content">
+            <a href="${productAffiliateLink}">
+              <h4 class="showcase-title">${productName}</h4>
             </a>
-            <div class="showcase-content">
-              <a href="${productAffiliateLink}">
-                <h4 class="showcase-title">${productName}</h4>
-              </a>
-              <a href="${productAffiliateLink}" class="showcase-category">${productTypeName}</a>
-              <div class="price-box">
-                <p class="price">${productCurrentCost}</p>
-                <del>${productOldCost}</del>
-              </div>
+
+            <a href="${productAffiliateLink}" class="showcase-category">${productTypeName}</a>
+
+            <div class="price-box">
+              <p class="price">${productCurrentCost}</p>
+              <del>${productOldCost}</del>
             </div>
+
           </div>
+
+        </div>
         `;
 
         // Add the product to the current container
@@ -84,20 +95,21 @@ async function fetchAndDisplayProducts() {
         }
       });
 
-      // Close the showcase-wrapper
+      // Close the showcase-wrapper and add it to productsDiv once
       sectionHtml += `
-          </div> <!-- End showcase-wrapper -->
+        </div> <!-- End showcase-wrapper -->
         </div> <!-- End product-showcase -->
       `;
 
-      // Append the section to the productsDiv
+      // Append this completed section to productsDiv
       productsDiv.innerHTML += sectionHtml;
     });
 
+
     // Update social media links
-    const tiktokLink = data[1][9]; // Column 10 (index 9), Row 2 (index 1)
-    const youtubeLink = data[1][10]; // Column 11 (index 10), Row 2 (index 1)
-    const instagramLink = data[1][11]; // Column 12 (index 11), Row 2 (index 1)
+    let tiktokLink = data[1][9]; // Column 10 (index 9), Row 2 (index 1)
+    let youtubeLink = data[1][10]; // Column 11 (index 10), Row 2 (index 1)
+    let instagramLink = data[1][11]; // Column 12 (index 11), Row 2 (index 1)
 
     // Update the href attributes of the social media links
     document.querySelector('a.social-link[href="#"] ion-icon[name="logo-tiktok"]').parentElement.href = tiktokLink;
@@ -106,22 +118,22 @@ async function fetchAndDisplayProducts() {
 
 
 
-    const websiteName = data[1][13]; // Column 14 (index 13), Row 2 (index 1)
-    const websiteTitle = data[1][14]; // Column 15 (index 14), Row 2 (index 1)
-    const websiteImage_1 = data[1][15]; // Column 16 (index 15), Row 2 (index 1)
-    const websiteImage_2 = data[1][16]; // Column 17 (index 16), Row 2 (index 1)
-    const websiteImage_3 = data[1][17]; // Column 18 (index 17), Row 2 (index 1)
+    let websiteName = data[1][13]; // Column 14 (index 13), Row 2 (index 1)
+    let websiteTitle = data[1][14]; // Column 15 (index 14), Row 2 (index 1)
+    let websiteImage_1 = data[1][15]; // Column 16 (index 15), Row 2 (index 1)
+    let websiteImage_2 = data[1][16]; // Column 17 (index 16), Row 2 (index 1)
+    let websiteImage_3 = data[1][17]; // Column 18 (index 17), Row 2 (index 1)
 
 
     // Select all elements with the class name "website_name_class"
-    const websireNameElements = document.getElementsByClassName('website_name_class');
+    let websireNameElements = document.getElementsByClassName('website_name_class');
 
     // Loop through each element and set its innerText to "Good"
     for (let i = 0; i < websireNameElements.length; i++) {
       websireNameElements[i].innerText = websiteName;
     }
     // Select all elements with the class name "website_name_class"
-    const websireTitleElements = document.getElementsByClassName('website_title_class');
+    let websireTitleElements = document.getElementsByClassName('website_title_class');
 
     // Loop through each element and set its innerText to "Good"
     for (let i = 0; i < websireTitleElements.length; i++) {
@@ -129,10 +141,10 @@ async function fetchAndDisplayProducts() {
     }
 
     // Select all elements with the class name "banner-img"
-    const images = document.getElementsByClassName('banner-img');
+    let images = document.getElementsByClassName('banner-img');
 
     // Create an array with the new image sources
-    const imgSources = [websiteImage_1, websiteImage_2, websiteImage_3];
+    let imgSources = [websiteImage_1, websiteImage_2, websiteImage_3];
 
     // Loop through each image element up to the length of imgSources
     for (let i = 0; i < imgSources.length; i++) {
@@ -149,7 +161,6 @@ async function fetchAndDisplayProducts() {
     document.body.style.opacity = '1';
 
   } catch (error) {
-    console.error('Error fetching Google Sheet data:', error);
   }
 }
 
@@ -164,14 +175,14 @@ window.onload = fetchAndDisplayProducts;
 
 function checkWebsiteTimeout() {
   // Get the date string from the element with id "website_time_out_date_a_id"
-  const timeoutDateStr = document.getElementById('website_time_out_date_a_id').innerText;
+  let timeoutDateStr = document.getElementById('website_time_out_date_a_id').innerText;
 
   // Parse the date string into a usable format
-  const [year, month, day] = timeoutDateStr.split('-').map(Number);
-  const timeoutDate = new Date(2000 + year, month - 1, day); // Adjust for 2-digit year assumption
+  let [year, month, day] = timeoutDateStr.split('-').map(Number);
+  let timeoutDate = new Date(2000 + year, month - 1, day); // Adjust for 2-digit year assumption
 
   // Get the current date without time
-  const currentDate = new Date();
+  let currentDate = new Date();
   currentDate.setHours(0, 0, 0, 0);
 
   // Compare the current date with the timeout date
@@ -180,7 +191,7 @@ function checkWebsiteTimeout() {
     document.body.innerHTML = '';
 
     // Create an h1 element and style it
-    const message = document.createElement('h1');
+    let message = document.createElement('h1');
     message.innerText = `The Website Needs To Be Renewal\n${timeoutDateStr}`;
     message.style.width = '100%';
     message.style.position = 'fixed';
