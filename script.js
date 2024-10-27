@@ -36,16 +36,19 @@ async function fetchAndDisplayProducts() {
     uniqueProductSectionTypes.forEach(productSectionType => {
       // Start a new HTML string for this product section
       let sectionHtml = `
-        <div class="product-showcase">
-          <h2 class="title">${productSectionType}</h2>
-        <div class="showcase-wrapper has-scrollbar">
-      `;
+    <div class="product-showcase">
+      <h2 class="title">${productSectionType}</h2>
+      <div class="showcase-wrapper has-scrollbar">
+  `;
 
       // Get the rows for this product section
       let rows = groupedData[productSectionType];
       let containerHtml = ''; // To store showcase-container blocks
-      let productCount = 0;   // Counter to limit 4 products per container
+      let productCount = 0;    // Counter to limit 4 products per container
+      let containerNumber = 1; // Counter for numbering showcase-containers
+      let containerCount = Math.ceil(rows.length / 4); // Number of containers needed
 
+      // Inside your existing forEach loop for rows
       rows.forEach((row, index) => {
         let productName = row[1];
         let productTypeName = row[2];
@@ -56,50 +59,53 @@ async function fetchAndDisplayProducts() {
 
         // Add a new showcase product HTML
         let productHtml = `
-        <div class="showcase">
-          <a href="${productAffiliateLink}" class="showcase-img-box">
-            <img src="${productImage}" width="70" class="showcase-img">
-          </a>
-
-          <div class="showcase-content">
-            <a href="${productAffiliateLink}">
-              <h4 class="showcase-title">${productName}</h4>
-            </a>
-
-            <a href="${productAffiliateLink}" class="showcase-category">${productTypeName}</a>
-
-            <div class="price-box">
-              <p class="price">${productCurrentCost}</p>
-              <del>${productOldCost}</del>
-            </div>
-
-          </div>
-
+    <div class="showcase">
+      <a href="${productAffiliateLink}" class="showcase-img-box">
+        <img src="${productImage}" width="70" class="showcase-img">
+      </a>
+      <div class="showcase-content">
+        <a href="${productAffiliateLink}">
+          <h4 class="showcase-title">${productName}</h4>
+        </a>
+        <a href="${productAffiliateLink}" class="showcase-category">${productTypeName}</a>
+        <div class="price-box">
+          <p class="price">${productCurrentCost}</p>
+          <del>${productOldCost}</del>
         </div>
-        `;
+      </div>
+    </div>
+  `;
 
         // Add the product to the current container
         containerHtml += productHtml;
         productCount++;
 
-        // If the product count reaches 4, wrap the showcase-container
+        // If the product count reaches 4 or it's the last product, wrap the showcase-container
         if (productCount === 4 || index === rows.length - 1) {
-          // Wrap the products inside a showcase-container
+          // Add the showcase-container with points instead of container numbers
           sectionHtml += `
-            <div class="showcase-container">
-              ${containerHtml}
-            </div>
-          `;
+      <div class="showcase-container">
+        <div class="points-wrapper">
+          ${Array.from({ length: containerCount }).map((_, i) => `
+            <span class="point ${i === containerNumber - 1 ? 'active' : ''}" data-index="${i}"></span>
+          `).join('')}
+        </div>
+        ${containerHtml}
+      </div>
+    `;
+
           containerHtml = ''; // Reset for the next set of products
-          productCount = 0; // Reset product counter
+          productCount = 0;   // Reset product counter
+          containerNumber++;  // Increment the container number
         }
       });
 
+
       // Close the showcase-wrapper and add it to productsDiv once
       sectionHtml += `
-        </div> <!-- End showcase-wrapper -->
-        </div> <!-- End product-showcase -->
-      `;
+    </div> <!-- End showcase-wrapper -->
+    </div> <!-- End product-showcase -->
+  `;
 
       // Append this completed section to productsDiv
       productsDiv.innerHTML += sectionHtml;
@@ -116,28 +122,26 @@ async function fetchAndDisplayProducts() {
     document.querySelector('a.social-link[href="#"] ion-icon[name="logo-youtube"]').parentElement.href = youtubeLink;
     document.querySelector('a.social-link[href="#"] ion-icon[name="logo-instagram"]').parentElement.href = instagramLink;
 
-
-
     let websiteName = data[1][13]; // Column 14 (index 13), Row 2 (index 1)
     let websiteTitle = data[1][14]; // Column 15 (index 14), Row 2 (index 1)
     let websiteImage_1 = data[1][15]; // Column 16 (index 15), Row 2 (index 1)
     let websiteImage_2 = data[1][16]; // Column 17 (index 16), Row 2 (index 1)
     let websiteImage_3 = data[1][17]; // Column 18 (index 17), Row 2 (index 1)
 
-
     // Select all elements with the class name "website_name_class"
-    let websireNameElements = document.getElementsByClassName('website_name_class');
+    let websiteNameElements = document.getElementsByClassName('website_name_class');
 
-    // Loop through each element and set its innerText to "Good"
-    for (let i = 0; i < websireNameElements.length; i++) {
-      websireNameElements[i].innerText = websiteName;
+    // Loop through each element and set its innerText to websiteName
+    for (let i = 0; i < websiteNameElements.length; i++) {
+      websiteNameElements[i].innerText = websiteName;
     }
-    // Select all elements with the class name "website_name_class"
-    let websireTitleElements = document.getElementsByClassName('website_title_class');
 
-    // Loop through each element and set its innerText to "Good"
-    for (let i = 0; i < websireTitleElements.length; i++) {
-      websireTitleElements[i].innerText = websiteTitle;
+    // Select all elements with the class name "website_title_class"
+    let websiteTitleElements = document.getElementsByClassName('website_title_class');
+
+    // Loop through each element and set its innerText to websiteTitle
+    for (let i = 0; i < websiteTitleElements.length; i++) {
+      websiteTitleElements[i].innerText = websiteTitle;
     }
 
     // Select all elements with the class name "banner-img"
@@ -153,21 +157,38 @@ async function fetchAndDisplayProducts() {
       }
     }
 
-
-
     checkWebsiteTimeout();
 
     // Make the body visible after loading content
     document.body.style.opacity = '1';
 
   } catch (error) {
+    window.location.reload();
   }
 }
+
+
 
 // Call the function on page load
 window.onload = fetchAndDisplayProducts;
 
 
+
+
+
+/* Function to dynamiclly change the points when swiping the "showcase-container" */
+const showcaseContainers = document.querySelectorAll('.showcase-container');
+const points = document.querySelectorAll('.point');
+
+showcaseContainers.forEach((container, index) => {
+  // You would add your swipe detection logic here
+  container.addEventListener('scroll', () => {
+    // Determine which container is currently in view
+    points.forEach((point, pointIndex) => {
+      point.classList.toggle('active', pointIndex === index);
+    });
+  });
+});
 
 
 
