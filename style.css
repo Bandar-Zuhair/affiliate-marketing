@@ -23,13 +23,9 @@
 
 
 :root {
-  --spanish-gray: hsl(0, 0%, 60%);
   --sonic-silver: hsl(0, 0%, 47%);
   --eerie-black: hsl(0, 0%, 13%);
   --salmon-pink: hsl(207, 100%, 50%);
-  --sandy-brown: hsl(29, 90%, 65%);
-  --bittersweet: hsl(0, 100%, 70%);
-  --ocean-green: hsl(152, 51%, 52%);
   --davys-gray: hsl(0, 0%, 33%);
   --cultured: hsl(0, 0%, 93%);
   --white: hsl(0, 100%, 100%);
@@ -163,9 +159,7 @@ body::-webkit-scrollbar-thumb:hover,
   font-weight: var(--weight-600);
   letter-spacing: 0.4px;
   text-transform: capitalize;
-  padding-bottom: 10px;
   border-bottom: 1px solid var(--cultured);
-  margin-bottom: 30px;
 }
 
 /*-----------------------------------*\
@@ -335,7 +329,6 @@ body::-webkit-scrollbar-thumb:hover,
 
 .points-wrapper {
   text-align: center; /* Center points above the showcase-container */
-  margin-bottom: 10px; /* Space between points and products */
 }
 
 .point {
@@ -765,9 +758,7 @@ footer {
     color: var(--onyx);
     font-size: var(--fs-7);
     font-weight: var(--weight-600);
-    padding-bottom: 10px;
     border-bottom: 1px solid var(--cultured);
-    margin-bottom: 10px;
   }
 
   .panel-list-item a {
