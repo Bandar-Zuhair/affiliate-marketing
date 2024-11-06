@@ -36,10 +36,10 @@ async function fetchAndDisplayProducts() {
     uniqueProductSectionTypes.forEach(productSectionType => {
       // Start a new HTML string for this product section
       let sectionHtml = `
-    <div class="product-showcase">
-      <h2 class="title">${productSectionType}</h2>
-      <div class="showcase-wrapper has-scrollbar">
-  `;
+        <div class="product-showcase">
+          <h2 class="title">${productSectionType}</h2>
+        <div class="showcase-wrapper has-scrollbar">
+      `;
 
       // Get the rows for this product section
       let rows = groupedData[productSectionType];
@@ -59,22 +59,22 @@ async function fetchAndDisplayProducts() {
 
         // Add a new showcase product HTML
         let productHtml = `
-    <div class="showcase">
-      <a href="${productAffiliateLink}" class="showcase-img-box">
-        <img src="${productImage}" width="70" class="showcase-img">
-      </a>
-      <div class="showcase-content">
-        <a href="${productAffiliateLink}">
-          <h4 class="showcase-title">${productName}</h4>
-        </a>
-        <a href="${productAffiliateLink}" class="showcase-category">${productTypeName}</a>
-        <div class="price-box">
-          <p class="price">${productCurrentCost}</p>
-          <del>${productOldCost}</del>
-        </div>
-      </div>
-    </div>
-  `;
+          <div class="showcase">
+            <a href="${productAffiliateLink}" class="showcase-img-box">
+              <img src="${productImage}" width="70" class="showcase-img">
+            </a>
+            <div class="showcase-content">
+              <a href="${productAffiliateLink}">
+                <h4 class="showcase-title">${productName}</h4>
+              </a>
+              <a href="${productAffiliateLink}" class="showcase-category">${productTypeName}</a>
+              <div class="price-box">
+                <p class="price">${productCurrentCost}</p>
+                <del>${productOldCost}</del>
+              </div>
+            </div>
+          </div>
+        `;
 
         // Add the product to the current container
         containerHtml += productHtml;
@@ -84,15 +84,15 @@ async function fetchAndDisplayProducts() {
         if (productCount === 4 || index === rows.length - 1) {
           // Add the showcase-container with points instead of container numbers
           sectionHtml += `
-      <div class="showcase-container">
-        <div class="points-wrapper">
-          ${Array.from({ length: containerCount }).map((_, i) => `
-            <span class="point ${i === containerNumber - 1 ? 'active' : ''}" data-index="${i}"></span>
-          `).join('')}
-        </div>
-        ${containerHtml}
-      </div>
-    `;
+            <div class="showcase-container">
+              <div class="points-wrapper">
+                ${Array.from({ length: containerCount }).map((_, i) => `
+                  <span class="point ${i === containerNumber - 1 ? 'active' : ''}" data-index="${i}"></span>
+                `).join('')}
+              </div>
+              ${containerHtml}
+            </div>
+          `;
 
           containerHtml = ''; // Reset for the next set of products
           productCount = 0;   // Reset product counter
@@ -100,17 +100,18 @@ async function fetchAndDisplayProducts() {
         }
       });
 
-
       // Close the showcase-wrapper and add it to productsDiv once
       sectionHtml += `
-    </div> <!-- End showcase-wrapper -->
-    </div> <!-- End product-showcase -->
-  `;
+        </div> <!-- End showcase-wrapper -->
+        </div> <!-- End product-showcase -->
+      `;
 
       // Append this completed section to productsDiv
       productsDiv.innerHTML += sectionHtml;
     });
 
+    // Apply scroll animations to dynamically created elements
+    applyScrollAnimations();
 
     // Update social media links
     let tiktokLink = data[1][9]; // Column 10 (index 9), Row 2 (index 1)
@@ -157,6 +158,9 @@ async function fetchAndDisplayProducts() {
       }
     }
 
+    /* Set the website tap title name as the website name */
+    document.getElementById('website_tap_title_name_id').href = websiteName;
+
     checkWebsiteTimeout();
 
     // Make the body visible after loading content
@@ -167,10 +171,43 @@ async function fetchAndDisplayProducts() {
   }
 }
 
+// Function to apply scroll animations to dynamically created elements
+function applyScrollAnimations() {
+  // Select header, footer, .banner, and .product-showcase elements
+  const animatedElements = document.querySelectorAll("header, footer, .banner, .product-showcase");
 
+  const observerOptions = {
+    root: null,
+    rootMargin: "0px",
+    threshold: 0.1
+  };
 
-// Call the function on page load
-window.onload = fetchAndDisplayProducts;
+  const observerCallback = (entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.style.transition = "all 0.5s ease";
+        entry.target.style.opacity = "1";
+        entry.target.style.transform = "translateY(0)";
+      } else {
+        entry.target.style.opacity = "0";
+        entry.target.style.transform = "translateY(20px)";
+      }
+    });
+  };
+
+  const observer = new IntersectionObserver(observerCallback, observerOptions);
+
+  // Apply initial opacity and transform to elements and observe them
+  animatedElements.forEach(element => {
+    element.style.opacity = "0";
+    element.style.transform = "translateY(20px)";
+    observer.observe(element);
+  });
+}
+
+// JavaScript for Scroll Animations
+document.addEventListener("DOMContentLoaded", fetchAndDisplayProducts);
+
 
 
 
@@ -231,3 +268,8 @@ function checkWebsiteTimeout() {
     document.body.style.display = ''; // Make the message visible
   }
 }
+
+
+
+
+
