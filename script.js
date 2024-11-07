@@ -188,7 +188,7 @@ function applyScrollAnimations() {
         entry.target.style.transition = "all 0.5s ease";
         entry.target.style.transform = "translateY(0)";
       } else {
-        entry.target.style.transform = "translateY(40px)";
+        entry.target.style.transform = "translateY(30px)";
       }
     });
   };
@@ -265,8 +265,3 @@ function checkWebsiteTimeout() {
     document.body.style.display = ''; // Make the message visible
   }
 }
-
-
-
-
-
