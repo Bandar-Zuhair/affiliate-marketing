@@ -70,7 +70,7 @@ async function fetchAndDisplayProducts() {
               <a href="${productAffiliateLink}" class="showcase-category">${productTypeName}</a>
               <div class="price-box">
                 <p class="price">${productCurrentCost}</p>
-                <del>${productOldCost}</del>
+                <del class="old-price">${productOldCost}</del>
               </div>
             </div>
           </div>
@@ -174,7 +174,7 @@ async function fetchAndDisplayProducts() {
 // Function to apply scroll animations to dynamically created elements
 function applyScrollAnimations() {
   // Select header, footer, .banner, and .product-showcase elements
-  const animatedElements = document.querySelectorAll("header, footer, .banner, .product-showcase");
+  const animatedElements = document.querySelectorAll("header, .banner, .banner-img, .banner-subtitle, .banner-title, .banner-text, .banner-btn, .product-showcase, .title, .showcase-title, .showcase-img-box, .showcase-category, .price, .old-price");
 
   const observerOptions = {
     root: null,
@@ -186,10 +186,8 @@ function applyScrollAnimations() {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
         entry.target.style.transition = "all 0.5s ease";
-        entry.target.style.opacity = "1";
         entry.target.style.transform = "translateY(0)";
       } else {
-        entry.target.style.opacity = "0";
         entry.target.style.transform = "translateY(20px)";
       }
     });
@@ -197,9 +195,8 @@ function applyScrollAnimations() {
 
   const observer = new IntersectionObserver(observerCallback, observerOptions);
 
-  // Apply initial opacity and transform to elements and observe them
+  // Apply initial transform to elements and observe them
   animatedElements.forEach(element => {
-    element.style.opacity = "0";
     element.style.transform = "translateY(20px)";
     observer.observe(element);
   });
