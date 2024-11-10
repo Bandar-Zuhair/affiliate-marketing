@@ -182,13 +182,15 @@ function applyScrollAnimations() {
     threshold: 0.1
   };
 
-  const observerCallback = (entries) => {
+  const observerCallback = (entries, observer) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
+        // Apply animation style
         entry.target.style.transition = "all 0.5s ease";
         entry.target.style.transform = "translateY(0)";
-      } else {
-        entry.target.style.transform = "translateY(30px)";
+
+        // Stop observing the element after the animation plays once
+        observer.unobserve(entry.target);
       }
     });
   };
@@ -197,10 +199,11 @@ function applyScrollAnimations() {
 
   // Apply initial transform to elements and observe them
   animatedElements.forEach(element => {
-    element.style.transform = "translateY(20px)";
+    element.style.transform = "translateY(100px)";
     observer.observe(element);
   });
 }
+
 
 // JavaScript for Scroll Animations
 document.addEventListener("DOMContentLoaded", fetchAndDisplayProducts);
