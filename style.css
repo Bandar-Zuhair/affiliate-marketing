@@ -30,7 +30,7 @@
   --cultured: hsl(0, 0%, 93%);
   --white: hsl(0, 100%, 100%);
   --onyx: hsl(0, 0%, 27%);
-  
+
   --fs-1: 1.563rem;
   --fs-2: 1.375rem;
   --fs-3: 1.25rem;
@@ -167,7 +167,7 @@ body::-webkit-scrollbar-thumb:hover,
 \*-----------------------------------*/
 
 .banner {
-  margin: 30px 0;
+  margin: 5px 0;
 }
 
 .slider-container {
@@ -185,12 +185,11 @@ body::-webkit-scrollbar-thumb:hover,
   position: relative;
   min-width: 100%;
   max-height: 450px;
-  aspect-ratio: 1 / 1;
   border-radius: var(--border-radius-md);
-  overflow: hidden;
   scroll-snap-align: start;
   display: flex;
-  flex-direction: row-reverse; /* Image on the right for large screens */
+  flex-direction: row-reverse;
+  /* Image on the right for large screens */
   justify-content: space-between;
   align-items: center;
   padding: 0 25px;
@@ -200,9 +199,10 @@ body::-webkit-scrollbar-thumb:hover,
 .banner-content {
   background: hsla(0, 0%, 100%, 0.9);
   width: 50%;
-  padding: 20px 25px;
+  padding: 5px 0;
   border-radius: var(--border-radius-md);
-  z-index: 1; /* Ensures content is above the image */
+  z-index: 1;
+  /* Ensures content is above the image */
 }
 
 /* Image styles */
@@ -214,20 +214,20 @@ body::-webkit-scrollbar-thumb:hover,
 
 
 .banner-subtitle {
-  color: var(--salmon-pink);
-  font-size: var(--fs-7);
-  font-weight: var(--weight-500);
-  text-transform: capitalize;
-  letter-spacing: 2px;
-  margin-bottom: 10px;
+  color: black;
+  font-size: 1.5vmax;
+  font-weight: bolder;
+  text-transform: uppercase;
+  padding: 1px 0;
+  border-radius: var(--border-radius-sm);
+  transition: var(--transition-timing);
 }
 
 .banner-title {
   color: var(--eerie-black);
-  font-size: var(--fs-1);
+  font-size: 2.5vmax;
   text-transform: uppercase;
   line-height: 1;
-  margin-bottom: 10px;
 }
 
 .banner-text {
@@ -237,10 +237,10 @@ body::-webkit-scrollbar-thumb:hover,
 .banner-btn {
   background: var(--salmon-pink);
   color: var(--white);
-  font-size: var(--fs-11);
+  font-size: 1.5vmax;
   font-weight: var(--weight-600);
   text-transform: uppercase;
-  padding: 4px 10px;
+  padding: 1px 5px;
   border-radius: var(--border-radius-sm);
   transition: var(--transition-timing);
 }
@@ -328,21 +328,27 @@ body::-webkit-scrollbar-thumb:hover,
 }
 
 .points-wrapper {
-  text-align: center; /* Center points above the showcase-container */
+  text-align: center;
+  /* Center points above the showcase-container */
 }
 
 .point {
   display: inline-block;
   width: 10px;
   height: 10px;
-  background-color: lightgray; /* Default color */
-  border-radius: 50%; /* Circle shape */
-  margin: 0 5px; /* Space between points */
-  cursor: pointer; /* Show cursor pointer on hover */
+  background-color: lightgray;
+  /* Default color */
+  border-radius: 50%;
+  /* Circle shape */
+  margin: 0 5px;
+  /* Space between points */
+  cursor: pointer;
+  /* Show cursor pointer on hover */
 }
 
 .point.active {
-  background-color: blue; /* Active point color */
+  background-color: blue;
+  /* Active point color */
 }
 
 
@@ -985,21 +991,42 @@ footer {
 /* Responsive styling for mobile devices */
 @media (max-width: 1200px) {
   .slider-item {
-    flex-direction: column; /* Stack elements vertically */
+    flex-direction: column;
+    /* Stack elements vertically */
     align-items: center;
   }
 
   .banner-content {
-    width: 90%; /* Takes most of the width on mobile */
-    position: absolute; /* Positions content over the image */
-    bottom: 20px; /* Adjust positioning as needed */
-    text-align: center;
-    background: rgba(255, 255, 255, 0.8); /* Semi-transparent background for readability */
+    width: fit-content;
+    position: absolute;
+    left: 20%;
+    /* Position content to the left */
+    bottom: 5%;
+    /* Position content to the bottom */
+    text-align: left;
+    /* Align text to the left */
+    background: rgba(255, 255, 255, 0.8);
+    /* Semi-transparent background */
+    padding: 10px;
+    /* Add some padding for spacing */
   }
 
   .slider-item .banner-img {
-    width: 70%; /* Full width image for mobile */
-    height: auto; /* Adjust height for better fit */
+    width: 70%;
+    height: auto;
+  }
+
+
+  .banner-subtitle {
+    font-size: 1.2vmax;
+  }
+
+  .banner-title {
+    font-size: 2vmax;
+  }
+
+  .banner-btn {
+    font-size: 1.2vmax;
   }
 }
 
@@ -1008,21 +1035,41 @@ footer {
 /* Responsive styling for mobile devices */
 @media (max-width: 550px) {
   .slider-item {
-    flex-direction: column; /* Stack elements vertically */
+    flex-direction: column;
+    /* Stack elements vertically */
     align-items: center;
   }
 
   .banner-content {
-    width: 90%; /* Takes most of the width on mobile */
-    position: absolute; /* Positions content over the image */
-    bottom: 20px; /* Adjust positioning as needed */
+    width: fit-content;
+    /* Takes most of the width on mobile */
+    position: absolute;
+    left: 5%;
+    /* Positions content over the image */
+    bottom: 5px;
+    /* Adjust positioning as needed */
     text-align: center;
-    background: rgba(255, 255, 255, 0.8); /* Semi-transparent background for readability */
+    background: rgba(255, 255, 255, 0.8);
+    /* Semi-transparent background for readability */
   }
 
   .slider-item .banner-img {
-    width: 100%; /* Full width image for mobile */
-    height: auto; /* Adjust height for better fit */
+    width: 100%;
+    /* Full width image for mobile */
+    height: auto;
+    /* Adjust height for better fit */
+  }
+
+  .banner-subtitle {
+    font-size: 1.5vmax;
+  }
+
+  .banner-title {
+    font-size: 2.5vmax;
+  }
+
+  .banner-btn {
+    font-size: 1.5vmax;
   }
 }
 
