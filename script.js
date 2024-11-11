@@ -1,5 +1,5 @@
 // Replace with your Google Apps Script Web App URL 
-let webAppURL = 'https://script.google.com/macros/s/AKfycbyn3kOysYorrEVWW9hBE8wLYE7vZDPEZiV2V6dttXzt0wykTzUMLNHufxyLWIuqzdJD4A/exec';
+let webAppURL = 'https://script.google.com/macros/s/AKfycbwFD_Zd6v_w1Kow68Y49tL3iORkdFbMgQyTxhFuEDIalG4KoquoPt9FE87xXfo6DEoXfw/exec';
 
 // Fetch data from Google Sheets Web App
 async function fetchAndDisplayProducts() {
