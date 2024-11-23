@@ -3,7 +3,7 @@ let webAppURL = 'https://script.google.com/macros/s/AKfycbzUrB4LgdcWid4u3LqjZm-f
 
 
 
-
+/* Insert new click data in the google sheet */
 function insertNewClick(columnName) {
   const scriptURL = "https://script.google.com/macros/s/AKfycbyU-p7z3tHF0I1K0GCmjcRG3CaG0NPkGyMPTvhlGPISxwIYrt6ueD7O2iHSza9SPOP3/exec";
 
@@ -79,14 +79,14 @@ async function fetchAndDisplayProducts() {
         // Add a new showcase product HTML
         let productHtml = `
           <div class="showcase">
-            <a onclick="insertNewClick('affiliate marketing 1')" href="${productAffiliateLink}" target="_blank" class="showcase-img-box">
+            <a onclick="insertNewClick('affiliate multiple 1')" href="${productAffiliateLink}" target="_blank" class="showcase-img-box">
               <img src="${productImage}" width="70" class="showcase-img">
             </a>
             <div class="showcase-content">
-              <a onclick="insertNewClick('affiliate marketing 1')" href="${productAffiliateLink}" target="_blank">
+              <a onclick="insertNewClick('affiliate multiple 1')" href="${productAffiliateLink}" target="_blank">
                 <h4 class="showcase-title">${productName}</h4>
               </a>
-              <a onclick="insertNewClick('affiliate marketing 1')" href="${productAffiliateLink}" target="_blank" class="showcase-category">${productTypeName}</a>
+              <a onclick="insertNewClick('affiliate multiple 1')" href="${productAffiliateLink}" target="_blank" class="showcase-category">${productTypeName}</a>
               <div class="price-box">
                 <p class="price">${productCurrentCost}</p>
                 <del class="old-price">${productOldCost}</del>
@@ -250,6 +250,7 @@ showcaseContainers.forEach((container, index) => {
 
 
 
+/* Check the website expire date */
 function checkWebsiteTimeout() {
   // Get the date string from the element with id "website_time_out_date_a_id"
   let timeoutDateStr = document.getElementById('website_time_out_date_a_id').innerText;
